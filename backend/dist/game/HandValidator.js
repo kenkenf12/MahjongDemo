@@ -7,8 +7,8 @@
  * 3. Each meld can be Chow, Pong, or Kong
  * 4. Bonus tiles (flowers/seasons) are separate and give bonus fan
  */
-import { areSameTileType, areConsecutive, isTerminal, isHonor, isBonus } from '../models/Tile';
-import { createChow, createPong, createPair } from '../models/Meld';
+import { areSameTileType, areConsecutive, isTerminal, isHonor, isBonus } from '../models/Tile.js';
+import { createChow, createPong, createPair } from '../models/Meld.js';
 export class HandValidator {
     /**
      * Validate if a hand is a winning hand

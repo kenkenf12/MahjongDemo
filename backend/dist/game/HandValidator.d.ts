@@ -7,8 +7,8 @@
  * 3. Each meld can be Chow, Pong, or Kong
  * 4. Bonus tiles (flowers/seasons) are separate and give bonus fan
  */
-import { Tile } from '../models/Tile';
-import { HandPattern } from '../models/Meld';
+import { Tile } from '../models/Tile.js';
+import { HandPattern } from '../models/Meld.js';
 export interface ValidationResult {
     isValid: boolean;
     pattern?: HandPattern;

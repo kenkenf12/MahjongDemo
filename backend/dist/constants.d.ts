@@ -6,7 +6,7 @@
  * - Standard game constants
  * - Default configuration values
  */
-import { Tile, TileSuit } from './models/Tile';
+import { Tile, TileSuit } from './models/Tile.js';
 /**
  * Standard Hong Kong Mahjong tile set
  * Total: 144 tiles

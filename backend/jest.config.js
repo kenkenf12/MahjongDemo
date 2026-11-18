@@ -1,6 +1,7 @@
-module.exports = {
+export default {
   preset: 'ts-jest',
   testEnvironment: 'node',
+  extensionsToTreatAsEsm: ['.ts'],
   roots: ['<rootDir>/src', '<rootDir>/tests'],
   testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
   collectCoverageFrom: [
@@ -20,6 +21,17 @@ module.exports = {
     'node_modules/(?!(uuid)/)'
   ],
   moduleNameMapper: {
-    '^uuid$': require.resolve('uuid')
+    '^uuid$': 'uuid'
+  },
+  globals: {
+    'ts-jest': {
+      useESM: true,
+      tsconfig: {
+        module: 'esnext',
+        moduleResolution: 'node',
+        esModuleInterop: true,
+        allowSyntheticDefaultImports: true
+      }
+    }
   }
 };

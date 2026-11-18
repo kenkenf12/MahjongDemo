@@ -9,9 +9,9 @@
  * - Turn sequence
  * - Scores and settlement
  */
-import { Tile } from './Tile';
-import { Meld } from './Meld';
-import { Position as PositionType } from '../types';
+import { Tile } from './Tile.js';
+import { Meld } from './Meld.js';
+import { Position as PositionType } from '../types.js';
 export type Position = PositionType;
 /**
  * Game phases during a round

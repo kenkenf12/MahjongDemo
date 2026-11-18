@@ -7,7 +7,7 @@
  *
  * Bonus tiles (flowers/seasons) in initial deal are replaced immediately.
  */
-import { Tile } from '../models/Tile';
+import { Tile } from '../models/Tile.js';
 export declare class Wall {
     private tiles;
     private drawIndex;
@@ -26,10 +26,20 @@ export declare class Wall {
     private shuffle;
     /**
      * Deal initial hand to 4 players
-     * East gets 14 tiles, others get 13 each (after bonus replacement)
-     * Bonus tiles are automatically replaced with wall tiles
+     * East gets exactly 14 non-bonus tiles, others get exactly 13 each
+     * Bonus tiles encountered during dealing are kept aside and NOT added to hands
      *
-     * @returns Array of 4 hands: [East (14), South (13), West (13), North (13)]
+     * Algorithm:
+     * 1. Deal 3 tiles per player, 4 times in standard Hong Kong sequence
+     * 2. East gets 1 extra tile
+     * 3. When a bonus tile is encountered, we skip it (don't add to hand)
+     * 4. Continue drawing from wall until each player has their target count
+     * 5. Bonus tiles are effectively "consumed" from the wall
+     *
+     * Note: In a full game, bonus tiles would be separated and tracked separately.
+     * This simplified version just removes them during dealing.
+     *
+     * @returns Array of 4 hands: [East (14), South (13), West (13), North (13)] - all non-bonus
      */
     dealInitial(): Tile[][];
     /**

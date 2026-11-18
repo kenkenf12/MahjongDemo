@@ -7,8 +7,8 @@
  * - Claim conflict resolution
  * - Game end detection
  */
-import { GamePhase, PlayerAction, getNextPlayer, getPlayer } from '../models/GameState';
-import { areSameTileType } from '../models/Tile';
+import { GamePhase, PlayerAction, getNextPlayer, getPlayer } from '../models/GameState.js';
+import { areSameTileType } from '../models/Tile.js';
 export class TurnManager {
     /**
      * Start a new turn for the given player

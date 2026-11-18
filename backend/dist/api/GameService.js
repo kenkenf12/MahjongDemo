@@ -7,10 +7,10 @@
  * - Manage game lifecycle (initialization, play, settlement)
  * - Persist game state in memory
  */
-import { createGameState, GamePhase } from '../models/GameState';
-import { TurnManager } from '../game/TurnManager';
-import { ActionValidator } from '../game/ActionValidator';
-import { Wall } from '../game/Wall';
+import { createGameState, GamePhase } from '../models/GameState.js';
+import { TurnManager } from '../game/TurnManager.js';
+import { ActionValidator } from '../game/ActionValidator.js';
+import { Wall } from '../game/Wall.js';
 // Simple UUID-like generator (no external dependency)
 function generateGameId() {
     return `game-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;

@@ -7,8 +7,8 @@
  * - Manage game lifecycle (initialization, play, settlement)
  * - Persist game state in memory
  */
-import { GameState } from '../models/GameState';
-import { Tile } from '../models/Tile';
+import { GameState } from '../models/GameState.js';
+import { Tile } from '../models/Tile.js';
 export interface GameSessionInfo {
     gameId: string;
     roomCode: string;

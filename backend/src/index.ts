@@ -23,7 +23,7 @@ export {
   PaymentConfig,
   PaymentModeConfig,
   DEFAULT_PAYMENT_CONFIG
-} from './types';
+} from './types.js';
 
 // Configuration
 export {
@@ -33,7 +33,7 @@ export {
   mergePaymentConfigs,
   exportConfigAsJson,
   loadConfigFromJson
-} from './config/PaymentConfig';
+} from './config/PaymentConfig.js';
 
 // Payment Calculators
 export {
@@ -41,15 +41,15 @@ export {
   SelfDrawPaymentCalculator,
   FullPaymentCalculator,
   UniversalPaymentCalculator
-} from './game/PaymentCalculator';
+} from './game/PaymentCalculator.js';
 
 // Settlement Engine
-export { SettlementEngine, createSettlementEngine } from './game/Settlement';
+export { SettlementEngine, createSettlementEngine } from './game/Settlement.js';
 
 // Stage 1: Hand Validation & Scoring
-export { HandValidator } from './game/HandValidator';
-export type { ValidationResult as HandValidationResult } from './game/HandValidator';
-export { FanCalculator, FanBreakdown } from './game/FanCalculator';
+export { HandValidator } from './game/HandValidator.js';
+export type { ValidationResult as HandValidationResult } from './game/HandValidator.js';
+export { FanCalculator, FanBreakdown } from './game/FanCalculator.js';
 export { 
   Meld, 
   MeldType, 
@@ -61,7 +61,7 @@ export {
   createPair,
   getMeldFanValue,
   getBonusFanValue
-} from './models/Meld';
+} from './models/Meld.js';
 
 // Stage 1: Wall & Dealing
-export { Wall } from './game/Wall';
+export { Wall } from './game/Wall.js';

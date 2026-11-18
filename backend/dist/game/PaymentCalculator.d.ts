@@ -11,7 +11,7 @@
  * - Payments capped at max fan (Q4 confirmed)
  * - Simple consistent calculation
  */
-import { Position, WinnerInfo, DiscardInfo, PlayerPaymentInfo, PaymentConfig } from '../types';
+import { Position, WinnerInfo, DiscardInfo, PlayerPaymentInfo, PaymentConfig } from '../types.js';
 /**
  * Discard Win Payment Calculator
  * CONFIRMED RULE Q1: Only discarder pays, not all losers

@@ -7,8 +7,8 @@
  * - Claim conflict resolution
  * - Game end detection
  */
-import { GameState, PlayerAction, Position, PlayerState } from '../models/GameState';
-import { Tile } from '../models/Tile';
+import { GameState, PlayerAction, Position, PlayerState } from '../models/GameState.js';
+import { Tile } from '../models/Tile.js';
 export interface Claim {
     claimedBy: Position;
     claimType: PlayerAction;

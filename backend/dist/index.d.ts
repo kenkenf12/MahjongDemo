@@ -10,13 +10,13 @@
  * Q4: Payments capped at max fan amount
  * Q5: No dealer multipliers (simple consistent calculation)
  */
-export { PaymentMode, Position, WinnerInfo, DiscardInfo, PlayerPaymentInfo, SettlementResult, ValidationResult, PaymentConfig, PaymentModeConfig, DEFAULT_PAYMENT_CONFIG } from './types';
-export { validatePaymentConfig, getDefaultConfig, createPaymentConfig, mergePaymentConfigs, exportConfigAsJson, loadConfigFromJson } from './config/PaymentConfig';
-export { DiscardPaymentCalculator, SelfDrawPaymentCalculator, FullPaymentCalculator, UniversalPaymentCalculator } from './game/PaymentCalculator';
-export { SettlementEngine, createSettlementEngine } from './game/Settlement';
-export { HandValidator } from './game/HandValidator';
-export type { ValidationResult as HandValidationResult } from './game/HandValidator';
-export { FanCalculator, FanBreakdown } from './game/FanCalculator';
-export { Meld, MeldType, Pair, HandPattern, createChow, createPong, createKong, createPair, getMeldFanValue, getBonusFanValue } from './models/Meld';
-export { Wall } from './game/Wall';
+export { PaymentMode, Position, WinnerInfo, DiscardInfo, PlayerPaymentInfo, SettlementResult, ValidationResult, PaymentConfig, PaymentModeConfig, DEFAULT_PAYMENT_CONFIG } from './types.js';
+export { validatePaymentConfig, getDefaultConfig, createPaymentConfig, mergePaymentConfigs, exportConfigAsJson, loadConfigFromJson } from './config/PaymentConfig.js';
+export { DiscardPaymentCalculator, SelfDrawPaymentCalculator, FullPaymentCalculator, UniversalPaymentCalculator } from './game/PaymentCalculator.js';
+export { SettlementEngine, createSettlementEngine } from './game/Settlement.js';
+export { HandValidator } from './game/HandValidator.js';
+export type { ValidationResult as HandValidationResult } from './game/HandValidator.js';
+export { FanCalculator, FanBreakdown } from './game/FanCalculator.js';
+export { Meld, MeldType, Pair, HandPattern, createChow, createPong, createKong, createPair, getMeldFanValue, getBonusFanValue } from './models/Meld.js';
+export { Wall } from './game/Wall.js';
 //# sourceMappingURL=index.d.ts.map

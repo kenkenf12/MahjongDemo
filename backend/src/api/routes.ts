@@ -16,8 +16,8 @@
  */
 
 import { Router, Request, Response } from 'express';
-import { gameService } from './GameService';
-import { Tile, TileSuit, createNumberTile, createWindTile, createDragonTile } from '../models/Tile';
+import { gameService } from './GameService.js';
+import { Tile, TileSuit, createNumberTile, createWindTile, createDragonTile } from '../models/Tile.js';
 
 const router = Router();
 

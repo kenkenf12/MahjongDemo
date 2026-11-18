@@ -8,8 +8,8 @@
  * Bonus tiles (flowers/seasons) in initial deal are replaced immediately.
  */
 
-import { Tile, isBonus } from '../models/Tile';
-import { STANDARD_TILE_SET, GAME_CONSTANTS } from '../constants';
+import { Tile, isBonus } from '../models/Tile.js';
+import { STANDARD_TILE_SET, GAME_CONSTANTS } from '../constants.js';
 
 export class Wall {
   private tiles: Tile[] = [];
@@ -46,51 +46,72 @@ export class Wall {
 
   /**
    * Deal initial hand to 4 players
-   * East gets 14 tiles, others get 13 each (after bonus replacement)
-   * Bonus tiles are automatically replaced with wall tiles
+   * East gets exactly 14 non-bonus tiles, others get exactly 13 each
+   * Bonus tiles encountered during dealing are kept aside and NOT added to hands
+   * 
+   * Algorithm:
+   * 1. Deal 3 tiles per player, 4 times in standard Hong Kong sequence
+   * 2. East gets 1 extra tile
+   * 3. When a bonus tile is encountered, we skip it (don't add to hand)
+   * 4. Continue drawing from wall until each player has their target count
+   * 5. Bonus tiles are effectively "consumed" from the wall
    *
-   * @returns Array of 4 hands: [East (14), South (13), West (13), North (13)]
+   * Note: In a full game, bonus tiles would be separated and tracked separately.
+   * This simplified version just removes them during dealing.
+   *
+   * @returns Array of 4 hands: [East (14), South (13), West (13), North (13)] - all non-bonus
    */
   dealInitial(): Tile[][] {
     const hands: Tile[][] = [[], [], [], []];
-
-    // Each player draws 3 tiles, 4 times (13 total per player initially)
-    for (let round = 0; round < 4; round++) {
-      for (let player = 0; player < 4; player++) {
-        const tile = this.tiles[this.drawIndex];
-        this.drawIndex++;
-        hands[player].push(tile);
+    const targets = [14, 13, 13, 13];  // East, South, West, North
+    
+    let playerIndex = 0;
+    let tilesDealtInRound = 0;
+    let round = 0;
+    
+    while (hands[0].length < targets[0] || hands[1].length < targets[1] || 
+           hands[2].length < targets[2] || hands[3].length < targets[3]) {
+      
+      // Determine if current draw is within valid range
+      if (this.drawIndex >= this.tiles.length - GAME_CONSTANTS.KONG_REPLACEMENT_TILES) {
+        // Wall exhausted - shouldn't happen in normal dealing
+        break;
       }
-    }
-
-    // East gets one more tile
-    hands[0].push(this.tiles[this.drawIndex]);
-    this.drawIndex++;
-
-    // Replace bonus tiles in each hand
-    // This automatically removes bonus tiles and draws replacements from wall
-    for (let player = 0; player < 4; player++) {
-      let replaced = true;
-      while (replaced) {
-        replaced = false;
-        const bonusIndex = hands[player].findIndex(tile => isBonus(tile));
-        if (bonusIndex >= 0) {
-          // Remove bonus tile from hand
-          hands[player].splice(bonusIndex, 1);
-          replaced = true;
-
-          // Draw replacement from wall
-          if (this.drawIndex < this.tiles.length - GAME_CONSTANTS.KONG_REPLACEMENT_TILES) {
-            const replacement = this.tiles[this.drawIndex];
-            this.drawIndex++;
-            hands[player].push(replacement);
-            
-            // If replacement is also bonus, loop will continue
+      
+      // Check if current player already has enough tiles
+      if (hands[playerIndex].length >= targets[playerIndex]) {
+        // Move to next player
+        playerIndex = (playerIndex + 1) % 4;
+        tilesDealtInRound = 0;
+        if (playerIndex === 0) {
+          round++;
+        }
+        continue;
+      }
+      
+      // Draw a tile
+      const tile = this.tiles[this.drawIndex];
+      this.drawIndex++;
+      
+      // Skip bonus tiles (don't add to hand, just consume from wall)
+      if (!isBonus(tile)) {
+        hands[playerIndex].push(tile);
+        tilesDealtInRound++;
+        
+        // Move to next player after 3 tiles (or 1 tile if it's East's extra)
+        const shouldMoveToNext = (playerIndex !== 0 && tilesDealtInRound >= 3) ||
+                                 (playerIndex === 0 && round < 4 && tilesDealtInRound >= 3) ||
+                                 (playerIndex === 0 && round === 4 && tilesDealtInRound >= 1);
+        if (shouldMoveToNext && hands[playerIndex].length < targets[playerIndex]) {
+          playerIndex = (playerIndex + 1) % 4;
+          tilesDealtInRound = 0;
+          if (playerIndex === 0) {
+            round++;
           }
         }
       }
     }
-
+    
     return hands;
   }
 

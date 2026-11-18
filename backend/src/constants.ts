@@ -19,7 +19,7 @@ import {
   createDragonTile,
   createFlowerTile,
   createSeasonTile
-} from './models/Tile';
+} from './models/Tile.js';
 
 /**
  * Standard Hong Kong Mahjong tile set
@@ -51,13 +51,14 @@ export const STANDARD_TILE_SET: Tile[] = [
     Object.values(DragonType).map(dragon => createDragonTile(dragon, i + 1))
   ).flat(),
 
-  // Flower tiles (Plum, Orchid, Bamboo, Chrysanthemum, 2 copies each = 8 tiles)
-  ...Array.from({ length: 2 }, (_, i) =>
+  // Bonus tiles: Flower + Season (4 flowers + 4 seasons = 8 tiles total)
+  // In traditional Hong Kong Mahjong, flowers are tied to players (1 per player typically)
+  // and seasons are also player-specific, totaling 8 bonus tiles
+  ...Array.from({ length: 1 }, (_, i) =>
     Object.values(FlowerType).map(flower => createFlowerTile(flower, i + 1))
   ).flat(),
 
-  // Season tiles (Spring, Summer, Autumn, Winter, 2 copies each = 8 tiles)
-  ...Array.from({ length: 2 }, (_, i) =>
+  ...Array.from({ length: 1 }, (_, i) =>
     Object.values(SeasonType).map(season => createSeasonTile(season, i + 1))
   ).flat()
 ];

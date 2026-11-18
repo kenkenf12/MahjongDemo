@@ -11,9 +11,9 @@
  *
  * Minimum fan to win: 1 fan
  */
-import { getMeldFanValue, getBonusFanValue } from '../models/Meld';
-import { HandValidator } from './HandValidator';
-import { DEFAULT_FAN_VALUES } from '../constants';
+import { getMeldFanValue, getBonusFanValue } from '../models/Meld.js';
+import { HandValidator } from './HandValidator.js';
+import { DEFAULT_FAN_VALUES } from '../constants.js';
 export class FanCalculator {
     /**
      * Calculate fan for a winning hand

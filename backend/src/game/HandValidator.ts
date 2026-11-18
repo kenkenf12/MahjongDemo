@@ -8,8 +8,8 @@
  * 4. Bonus tiles (flowers/seasons) are separate and give bonus fan
  */
 
-import { Tile, areSameTileType, areConsecutive, isTerminal, isHonor, isBonus } from '../models/Tile';
-import { Meld, MeldType, Pair, HandPattern, createChow, createPong, createKong, createPair } from '../models/Meld';
+import { Tile, areSameTileType, areConsecutive, isTerminal, isHonor, isBonus } from '../models/Tile.js';
+import { Meld, MeldType, Pair, HandPattern, createChow, createPong, createKong, createPair } from '../models/Meld.js';
 
 export interface ValidationResult {
   isValid: boolean;

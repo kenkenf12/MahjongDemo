@@ -8,11 +8,11 @@
  * - Persist game state in memory
  */
 
-import { GameState, createGameState, GamePhase } from '../models/GameState';
-import { TurnManager } from '../game/TurnManager';
-import { ActionValidator } from '../game/ActionValidator';
-import { Wall } from '../game/Wall';
-import { Tile } from '../models/Tile';
+import { GameState, createGameState, GamePhase } from '../models/GameState.js';
+import { TurnManager } from '../game/TurnManager.js';
+import { ActionValidator } from '../game/ActionValidator.js';
+import { Wall } from '../game/Wall.js';
+import { Tile } from '../models/Tile.js';
 
 // Simple UUID-like generator (no external dependency)
 function generateGameId(): string {

@@ -25,8 +25,8 @@ import {
   ValidationResult,
   PaymentConfig,
   PlayerPaymentInfo
-} from '../types';
-import { UniversalPaymentCalculator } from './PaymentCalculator';
+} from '../types.js';
+import { UniversalPaymentCalculator } from './PaymentCalculator.js';
 
 /**
  * Main Settlement Engine

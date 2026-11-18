@@ -8,7 +8,7 @@
  * - Sync turn notifications
  * - Manage game rooms
  */
-import { gameService } from './GameService';
+import { gameService } from './GameService.js';
 export class WebSocketGameManager {
     constructor(io) {
         this.gameRooms = new Map();

@@ -15,7 +15,7 @@
  * Q4: Payments capped at max fan
  * Q5: No dealer multipliers
  */
-import { Position, WinnerInfo, DiscardInfo, SettlementResult, PaymentConfig } from '../types';
+import { Position, WinnerInfo, DiscardInfo, SettlementResult, PaymentConfig } from '../types.js';
 /**
  * Main Settlement Engine
  */

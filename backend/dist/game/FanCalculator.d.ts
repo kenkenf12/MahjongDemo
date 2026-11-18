@@ -11,9 +11,9 @@
  *
  * Minimum fan to win: 1 fan
  */
-import { Tile } from '../models/Tile';
-import { HandPattern } from '../models/Meld';
-import { DEFAULT_FAN_VALUES } from '../constants';
+import { Tile } from '../models/Tile.js';
+import { HandPattern } from '../models/Meld.js';
+import { DEFAULT_FAN_VALUES } from '../constants.js';
 export interface FanBreakdown {
     meldsTotal: number;
     bonusTotal: number;

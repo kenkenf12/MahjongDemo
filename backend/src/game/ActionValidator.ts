@@ -7,9 +7,9 @@
  * - Game rules are followed
  */
 
-import { GameState, GamePhase, PlayerAction, Position, PlayerState } from '../models/GameState';
-import { Tile, areSameTileType } from '../models/Tile';
-import { Meld } from '../models/Meld';
+import { GameState, GamePhase, PlayerAction, Position, PlayerState } from '../models/GameState.js';
+import { Tile, areSameTileType } from '../models/Tile.js';
+import { Meld } from '../models/Meld.js';
 
 export interface ActionValidationResult {
   isValid: boolean;

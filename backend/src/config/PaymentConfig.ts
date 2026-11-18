@@ -9,7 +9,7 @@
  * Q5: No dealer multipliers (simple consistent calculation)
  */
 
-import { PaymentConfig, DEFAULT_PAYMENT_CONFIG } from '../types';
+import { PaymentConfig, DEFAULT_PAYMENT_CONFIG } from '../types.js';
 
 /**
  * Validates payment configuration

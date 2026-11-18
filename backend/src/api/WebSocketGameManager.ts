@@ -10,9 +10,9 @@
  */
 
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { GameState, GamePhase, Position } from '../models/GameState';
-import { gameService, GameSessionInfo } from './GameService';
-import { Tile } from '../models/Tile';
+import { GameState, GamePhase, Position } from '../models/GameState.js';
+import { gameService, GameSessionInfo } from './GameService.js';
+import { Tile } from '../models/Tile.js';
 
 export interface PlayerConnection {
   position: Position;

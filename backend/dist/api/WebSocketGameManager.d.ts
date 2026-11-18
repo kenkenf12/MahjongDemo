@@ -9,8 +9,8 @@
  * - Manage game rooms
  */
 import { Server as SocketIOServer, Socket } from 'socket.io';
-import { GameState, Position } from '../models/GameState';
-import { GameSessionInfo } from './GameService';
+import { GameState, Position } from '../models/GameState.js';
+import { GameSessionInfo } from './GameService.js';
 export interface PlayerConnection {
     position: Position;
     playerId: string;

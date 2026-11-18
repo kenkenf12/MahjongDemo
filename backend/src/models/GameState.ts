@@ -10,9 +10,9 @@
  * - Scores and settlement
  */
 
-import { Tile } from './Tile';
-import { Meld } from './Meld';
-import { Position as PositionType } from '../types';
+import { Tile } from './Tile.js';
+import { Meld } from './Meld.js';
+import { Position as PositionType } from '../types.js';
 
 // Re-export Position for convenience in GameState-related imports
 export type Position = PositionType;

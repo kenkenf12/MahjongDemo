@@ -6,8 +6,8 @@
  * - Player has required tiles/melds for action
  * - Game rules are followed
  */
-import { GameState, PlayerAction, Position } from '../models/GameState';
-import { Tile } from '../models/Tile';
+import { GameState, PlayerAction, Position } from '../models/GameState.js';
+import { Tile } from '../models/Tile.js';
 export interface ActionValidationResult {
     isValid: boolean;
     errors: string[];

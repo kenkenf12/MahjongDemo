@@ -15,8 +15,8 @@
  * GET    /health                    - Health check
  */
 import { Router } from 'express';
-import { gameService } from './GameService';
-import { createNumberTile } from '../models/Tile';
+import { gameService } from './GameService.js';
+import { createNumberTile } from '../models/Tile.js';
 const router = Router();
 /**
  * Health check

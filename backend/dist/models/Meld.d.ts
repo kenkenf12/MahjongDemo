@@ -7,7 +7,7 @@
  * - Kong (杠): 4 identical tiles (quad)
  * - Concealed Kong (暗杠): Kong formed from hand (not from discard claim)
  */
-import { Tile } from './Tile';
+import { Tile } from './Tile.js';
 /**
  * Types of melds
  */

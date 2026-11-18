@@ -8,7 +8,7 @@
  * Q4: Payments capped at max fan amount
  * Q5: No dealer multipliers (simple consistent calculation)
  */
-import { DEFAULT_PAYMENT_CONFIG } from '../types';
+import { DEFAULT_PAYMENT_CONFIG } from '../types.js';
 /**
  * Validates payment configuration
  * @throws Error if configuration is invalid

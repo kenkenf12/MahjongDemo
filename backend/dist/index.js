@@ -11,16 +11,16 @@
  * Q5: No dealer multipliers (simple consistent calculation)
  */
 // Core types
-export { PaymentMode, DEFAULT_PAYMENT_CONFIG } from './types';
+export { PaymentMode, DEFAULT_PAYMENT_CONFIG } from './types.js';
 // Configuration
-export { validatePaymentConfig, getDefaultConfig, createPaymentConfig, mergePaymentConfigs, exportConfigAsJson, loadConfigFromJson } from './config/PaymentConfig';
+export { validatePaymentConfig, getDefaultConfig, createPaymentConfig, mergePaymentConfigs, exportConfigAsJson, loadConfigFromJson } from './config/PaymentConfig.js';
 // Payment Calculators
-export { DiscardPaymentCalculator, SelfDrawPaymentCalculator, FullPaymentCalculator, UniversalPaymentCalculator } from './game/PaymentCalculator';
+export { DiscardPaymentCalculator, SelfDrawPaymentCalculator, FullPaymentCalculator, UniversalPaymentCalculator } from './game/PaymentCalculator.js';
 // Settlement Engine
-export { SettlementEngine, createSettlementEngine } from './game/Settlement';
+export { SettlementEngine, createSettlementEngine } from './game/Settlement.js';
 // Stage 1: Hand Validation & Scoring
-export { HandValidator } from './game/HandValidator';
-export { FanCalculator } from './game/FanCalculator';
-export { MeldType, createChow, createPong, createKong, createPair, getMeldFanValue, getBonusFanValue } from './models/Meld';
+export { HandValidator } from './game/HandValidator.js';
+export { FanCalculator } from './game/FanCalculator.js';
+export { MeldType, createChow, createPong, createKong, createPair, getMeldFanValue, getBonusFanValue } from './models/Meld.js';
 // Stage 1: Wall & Dealing
-export { Wall } from './game/Wall';
+export { Wall } from './game/Wall.js';

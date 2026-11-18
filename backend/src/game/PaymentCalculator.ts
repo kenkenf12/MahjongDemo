@@ -19,7 +19,7 @@ import {
   DiscardInfo,
   PlayerPaymentInfo,
   PaymentConfig
-} from '../types';
+} from '../types.js';
 
 /**
  * Discard Win Payment Calculator

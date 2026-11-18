@@ -6,8 +6,8 @@
  * - Player has required tiles/melds for action
  * - Game rules are followed
  */
-import { GamePhase, PlayerAction } from '../models/GameState';
-import { areSameTileType } from '../models/Tile';
+import { GamePhase, PlayerAction } from '../models/GameState.js';
+import { areSameTileType } from '../models/Tile.js';
 export class ActionValidator {
     /**
      * Validate a draw action

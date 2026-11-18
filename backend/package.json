@@ -2,6 +2,7 @@
   "name": "mahjong-payment-calculator",
   "version": "1.0.0",
   "description": "Hong Kong Mahjong Payment Calculator with configurable payment modes",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

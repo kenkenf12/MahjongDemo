@@ -6,7 +6,7 @@
  * - Standard game constants
  * - Default configuration values
  */
-import { TileSuit, WindType, DragonType, FlowerType, SeasonType, createNumberTile, createWindTile, createDragonTile, createFlowerTile, createSeasonTile } from './models/Tile';
+import { TileSuit, WindType, DragonType, FlowerType, SeasonType, createNumberTile, createWindTile, createDragonTile, createFlowerTile, createSeasonTile } from './models/Tile.js';
 /**
  * Standard Hong Kong Mahjong tile set
  * Total: 144 tiles
@@ -22,10 +22,11 @@ export const STANDARD_TILE_SET = [
     ...Array.from({ length: 4 }, (_, i) => Object.values(WindType).map(wind => createWindTile(wind, i + 1))).flat(),
     // Dragon tiles (Red, Green, White, 4 copies each = 12 tiles)
     ...Array.from({ length: 4 }, (_, i) => Object.values(DragonType).map(dragon => createDragonTile(dragon, i + 1))).flat(),
-    // Flower tiles (Plum, Orchid, Bamboo, Chrysanthemum, 2 copies each = 8 tiles)
-    ...Array.from({ length: 2 }, (_, i) => Object.values(FlowerType).map(flower => createFlowerTile(flower, i + 1))).flat(),
-    // Season tiles (Spring, Summer, Autumn, Winter, 2 copies each = 8 tiles)
-    ...Array.from({ length: 2 }, (_, i) => Object.values(SeasonType).map(season => createSeasonTile(season, i + 1))).flat()
+    // Bonus tiles: Flower + Season (4 flowers + 4 seasons = 8 tiles total)
+    // In traditional Hong Kong Mahjong, flowers are tied to players (1 per player typically)
+    // and seasons are also player-specific, totaling 8 bonus tiles
+    ...Array.from({ length: 1 }, (_, i) => Object.values(FlowerType).map(flower => createFlowerTile(flower, i + 1))).flat(),
+    ...Array.from({ length: 1 }, (_, i) => Object.values(SeasonType).map(season => createSeasonTile(season, i + 1))).flat()
 ];
 /**
  * Tile count constants

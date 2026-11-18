@@ -15,8 +15,8 @@
  * Q4: Payments capped at max fan
  * Q5: No dealer multipliers
  */
-import { PaymentMode } from '../types';
-import { UniversalPaymentCalculator } from './PaymentCalculator';
+import { PaymentMode } from '../types.js';
+import { UniversalPaymentCalculator } from './PaymentCalculator.js';
 /**
  * Main Settlement Engine
  */
