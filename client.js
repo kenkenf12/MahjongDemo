@@ -15,27 +15,8 @@ class MahjongClient {
     /**
      * Connect to the WebSocket server
      */
-    connect(host = null) {
+    connect(host = 'localhost:3000') {
         try {
-            // Auto-detect host if not provided
-            if (!host) {
-                if (window.location.hostname === 'mahjongdemo.kenkenf12.workers.dev' || window.location.hostname === '127.0.0.1') {
-                    // Local development
-                    host = 'localhost:3000';
-                } else {
-                    // Production - show prompt for backend URL
-                    const savedHost = localStorage.getItem('backendHost');
-                    if (savedHost) {
-                        host = savedHost;
-                    } else {
-                        this.log('⚠️ Backend URL not configured. Using demo mode (no connection).', 'warning');
-                        this.log('To connect to a backend, set the server URL in settings.', 'info');
-                        this.updateStatus('Demo Mode (No Backend)', false);
-                        return;
-                    }
-                }
-            }
-
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
             const url = `${protocol}//${host}`;
             
