@@ -19,7 +19,7 @@ class MahjongClient {
         try {
             // Auto-detect host if not provided
             if (!host) {
-                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                if (window.location.hostname === 'mahjongdemo.kenkenf12.workers.dev' || window.location.hostname === '127.0.0.1') {
                     // Local development
                     host = 'localhost:3000';
                 } else {
