@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hong Kong Mahjong - Multiplayer Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🀄 Hong Kong Mahjong</h1>
+            <p>Real-time Multiplayer Game</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Connection Status -->
+            <div id="status" class="status disconnected">
+                <span>Disconnected</span>
+            </div>
+
+            <!-- Game Board -->
+            <div class="game-board">
+                <!-- Players Info -->
+                <div class="players-info">
+                    <div class="player east">
+                        <h3>East (You)</h3>
+                        <div class="hand-display">
+                            <img src="assets/tiles/back.png" alt="Card back">
+                        </div>
+                        <p class="tiles-count">0 tiles</p>
+                    </div>
+                    <div class="player north">
+                        <h3>North</h3>
+                        <p class="tiles-count">0 tiles</p>
+                    </div>
+                    <div class="player west">
+                        <h3>West</h3>
+                        <p class="tiles-count">0 tiles</p>
+                    </div>
+                    <div class="player south">
+                        <h3>South</h3>
+                        <p class="tiles-count">0 tiles</p>
+                    </div>
+                </div>
+
+                <!-- Center Area -->
+                <div class="center-area">
+                    <div class="discard-pile">
+                        <h4>Discards</h4>
+                        <div id="discards" class="tiles-container">
+                            <!-- Discarded tiles appear here -->
+                        </div>
+                    </div>
+
+                    <div class="wall-info">
+                        <h4>Wall Status</h4>
+                        <p>Tiles Remaining: <span id="wall-count">144</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <div class="connection-controls">
+                    <input type="text" id="gameCode" placeholder="Game Code" maxlength="10">
+                    <input type="text" id="playerName" placeholder="Your Name" value="Player">
+                    <button id="joinBtn" onclick="joinGame()">Join Game</button>
+                    <button id="newGameBtn" onclick="newGame()">New Game</button>
+                </div>
+
+                <div class="game-controls" style="display:none;" id="gameControls">
+                    <button onclick="drawTile()">Draw Tile</button>
+                    <button onclick="discardTile()">Discard Tile</button>
+                    <button onclick="declareWin()">Declare Win</button>
+                </div>
+            </div>
+
+            <!-- Tile Gallery (Demo) -->
+            <div class="tile-gallery">
+                <h3>Available Tiles</h3>
+                <div class="tiles-showcase">
+                    <!-- Character Tiles -->
+                    <div class="tile-group">
+                        <h4>Character (万)</h4>
+                        <div class="tiles-row">
+                            <img src="assets/tiles/character_1.png" alt="Character 1" title="1万">
+                            <img src="assets/tiles/character_2.png" alt="Character 2" title="2万">
+                            <img src="assets/tiles/character_3.png" alt="Character 3" title="3万">
+                            <img src="assets/tiles/character_4.png" alt="Character 4" title="4万">
+                            <img src="assets/tiles/character_5.png" alt="Character 5" title="5万">
+                            <img src="assets/tiles/character_6.png" alt="Character 6" title="6万">
+                            <img src="assets/tiles/character_7.png" alt="Character 7" title="7万">
+                            <img src="assets/tiles/character_8.png" alt="Character 8" title="8万">
+                            <img src="assets/tiles/character_9.png" alt="Character 9" title="9万">
+                        </div>
+                    </div>
+
+                    <!-- Bamboo Tiles -->
+                    <div class="tile-group">
+                        <h4>Bamboo (索)</h4>
+                        <div class="tiles-row">
+                            <img src="assets/tiles/bamboo_1.png" alt="Bamboo 1" title="1索">
+                            <img src="assets/tiles/bamboo_2.png" alt="Bamboo 2" title="2索">
+                            <img src="assets/tiles/bamboo_3.png" alt="Bamboo 3" title="3索">
+                            <img src="assets/tiles/bamboo_4.png" alt="Bamboo 4" title="4索">
+                            <img src="assets/tiles/bamboo_5.png" alt="Bamboo 5" title="5索">
+                            <img src="assets/tiles/bamboo_6.png" alt="Bamboo 6" title="6索">
+                            <img src="assets/tiles/bamboo_7.png" alt="Bamboo 7" title="7索">
+                            <img src="assets/tiles/bamboo_8.png" alt="Bamboo 8" title="8索">
+                            <img src="assets/tiles/bamboo_9.png" alt="Bamboo 9" title="9索">
+                        </div>
+                    </div>
+
+                    <!-- Dot Tiles -->
+                    <div class="tile-group">
+                        <h4>Dot (筒)</h4>
+                        <div class="tiles-row">
+                            <img src="assets/tiles/dot_1.png" alt="Dot 1" title="1筒">
+                            <img src="assets/tiles/dot_2.png" alt="Dot 2" title="2筒">
+                            <img src="assets/tiles/dot_3.png" alt="Dot 3" title="3筒">
+                            <img src="assets/tiles/dot_4.png" alt="Dot 4" title="4筒">
+                            <img src="assets/tiles/dot_5.png" alt="Dot 5" title="5筒">
+                            <img src="assets/tiles/dot_6.png" alt="Dot 6" title="6筒">
+                            <img src="assets/tiles/dot_7.png" alt="Dot 7" title="7筒">
+                            <img src="assets/tiles/dot_8.png" alt="Dot 8" title="8筒">
+                            <img src="assets/tiles/dot_9.png" alt="Dot 9" title="9筒">
+                        </div>
+                    </div>
+
+                    <!-- Wind Tiles -->
+                    <div class="tile-group">
+                        <h4>Wind (風)</h4>
+                        <div class="tiles-row">
+                            <img src="assets/tiles/wind_east.png" alt="East Wind" title="東">
+                            <img src="assets/tiles/wind_south.png" alt="South Wind" title="南">
+                            <img src="assets/tiles/wind_west.png" alt="West Wind" title="西">
+                            <img src="assets/tiles/wind_north.png" alt="North Wind" title="北">
+                        </div>
+                    </div>
+
+                    <!-- Dragon Tiles -->
+                    <div class="tile-group">
+                        <h4>Dragon (龍)</h4>
+                        <div class="tiles-row">
+                            <img src="assets/tiles/dragon_red.png" alt="Red Dragon" title="紅龍">
+                            <img src="assets/tiles/dragon_green.png" alt="Green Dragon" title="綠龍">
+                            <img src="assets/tiles/dragon_white.png" alt="White Dragon" title="白龍">
+                        </div>
+                    </div>
+
+                    <!-- Flower Tiles -->
+                    <div class="tile-group">
+                        <h4>Flower (花)</h4>
+                        <div class="tiles-row">
+                            <img src="assets/tiles/flower_plum.png" alt="Plum" title="梅">
+                            <img src="assets/tiles/flower_orchid.png" alt="Orchid" title="蘭">
+                            <img src="assets/tiles/flower_bamboo.png" alt="Bamboo Flower" title="竹">
+                            <img src="assets/tiles/flower_chrysanthemum.png" alt="Chrysanthemum" title="菊">
+                        </div>
+                    </div>
+
+                    <!-- Season Tiles -->
+                    <div class="tile-group">
+                        <h4>Season (季)</h4>
+                        <div class="tiles-row">
+                            <img src="assets/tiles/season_spring.png" alt="Spring" title="春">
+                            <img src="assets/tiles/season_summer.png" alt="Summer" title="夏">
+                            <img src="assets/tiles/season_autumn.png" alt="Autumn" title="秋">
+                            <img src="assets/tiles/season_winter.png" alt="Winter" title="冬">
+                        </div>
+                    </div>
+
+                    <!-- Tile Back -->
+                    <div class="tile-group">
+                        <h4>Hidden</h4>
+                        <div class="tiles-row">
+                            <img src="assets/tiles/back.png" alt="Card Back" title="Hidden Tile">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Log -->
+            <div class="game-log">
+                <h3>Game Log</h3>
+                <div id="log" class="log-content">
+                    <p class="log-entry">Waiting for connection...</p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Hong Kong Mahjong Multiplayer Game | Built with WebSocket</p>
+        </footer>
+    </div>
+
+    <script src="client.js"></script>
+</body>
+</html>
