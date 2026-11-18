@@ -15,7 +15,7 @@ class MahjongClient {
     /**
      * Connect to the WebSocket server
      */
-    connect(host = 'https://mahjongdemo.kenkenf12.workers.dev') {
+    connect(host = 'mahjongdemo.kenkenf12.workers.dev') {
         try {
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
             this.socket = new WebSocket(`${protocol}//${host}`);
