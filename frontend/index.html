@@ -60,6 +60,21 @@
                 </div>
             </div>
 
+            <!-- Settings Section -->
+            <div class="settings-section">
+                <details>
+                    <summary>⚙️ Settings</summary>
+                    <div class="settings-content">
+                        <div class="setting-group">
+                            <label for="backendUrl">Backend Server URL:</label>
+                            <input type="text" id="backendUrl" placeholder="e.g., mahjong-game.your-account.workers.dev" style="width: 100%; padding: 8px; margin-bottom: 10px;">
+                            <button onclick="updateBackendUrl()" style="margin-right: 5px;">Save URL</button>
+                            <button onclick="testConnection()">Test Connection</button>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
             <!-- Controls -->
             <div class="controls">
                 <div class="connection-controls">
