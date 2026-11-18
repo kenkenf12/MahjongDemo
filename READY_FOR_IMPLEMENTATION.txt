@@ -1,0 +1,350 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║              PAYMENT CALCULATOR - PRE-IMPLEMENTATION ANALYSIS             ║
+║                           READY FOR FEEDBACK                             ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+📋 ANALYSIS COMPLETE
+──────────────────────────────────────────────────────────────────────────────
+
+Two comprehensive documents have been created:
+
+  1. PAYMENT_RULES_ANALYSIS.md (detailed specification review)
+  2. IMPLEMENTATION_SUMMARY.md (pre-build summary)
+
+Read these to understand:
+  ✓ Current architecture (none exists yet)
+  ✓ Files to be created (8 new files)
+  ✓ Critical ambiguities (5 flagged)
+  ✓ Implementation strategy (4 phases)
+
+
+🔍 KEY FINDINGS
+──────────────────────────────────────────────────────────────────────────────
+
+EXISTING CODE STATUS
+  Status: NONE - No implementation files exist
+  Reason: You just created the specification
+  Action: Building from scratch as requested
+
+
+PAYMENT RULES FROM SPECIFICATION (Extracted from SPEC_REVIEW.md §3)
+  
+  ✓ Winning condition: 4 melds + 1 pair (minimum 1 fan)
+  ✓ Fan values: Pong(1), Kong concealed(2), Kong exposed(1), etc.
+  ✓ Dealer multiplier: 2× when wins or loses
+  ✓ Base payment model: "Each loser pays 1× or 2× fan value"
+  ✓ Draw game: No payments
+
+
+CRITICAL AMBIGUITIES (5 FLAGGED - Need Confirmation)
+  
+  ❓ #1: Discard Payment Model
+     Question: Do ALL 3 losers contribute equally, OR only the discarder?
+     Status: SPEC SAYS "each loser pays" but typical HK Mahjong is discarder only
+     Impact: HIGH - affects payout calculation
+     
+  ❓ #2: Self-Draw vs. Discard Payment
+     Question: Same payment or different? Spec asks "Should Tsumo receive bonus?"
+     Status: SPEC SAYS "assumed NO bonus" but needs confirmation
+     Impact: MEDIUM - may affect fairness/competitiveness
+     
+  ❓ #3: Kong Liability (Pao / 包)
+     Question: Should Kong create special payment liability?
+     Status: NOT IN SPEC - common in HK Mahjong but missing here
+     Impact: MEDIUM - can be added/deferred
+     
+  ❓ #4: Payment Cap
+     Question: Should there be maximum payment limits?
+     Status: NOT IN SPEC - can assume unlimited
+     Impact: LOW - can add anytime
+     
+  ❓ #5: Dealer Multiplier Direction
+     Question: Is 2× calculation method correct?
+     Status: SEEMS CLEAR - but can confirm if needed
+     Impact: LOW
+
+
+🎯 THREE PAYMENT MODES TO IMPLEMENT
+──────────────────────────────────────────────────────────────────────────────
+
+MODE 1: DISCARD WIN (Ron / 榮)
+  Trigger: Winner claims discarded tile
+  Question: Only discarder pays, or all 3 losers?
+  
+  Assumption (All Pay):
+    Winner gets: 1 fan from Player A + 1 fan from Player B + 1 fan from Player C = 3
+  
+  Alternative (Discarder Only):
+    Winner gets: 3 fan from Player A (discarder) only, others pay 0
+
+MODE 2: SELF-DRAW WIN (Tsumo / 摸)
+  Trigger: Winner draws from wall
+  Question: Same payment as discard, or reduced?
+  
+  Assumption (Same Payment):
+    All 3 players pay 1 fan each = 3 total
+  
+  Alternative (Reduced):
+    All 3 players pay 0.5 fan each = 1.5 total (or variable)
+
+MODE 3: PAO LIABILITY (包)
+  Trigger: Kong or special drawing circumstances
+  Question: Include or defer?
+  
+  Not Specified: Implementation pending decision
+
+
+📁 FILES TO CREATE (8 Total)
+──────────────────────────────────────────────────────────────────────────────
+
+CORE LOGIC (4 files):
+  1. backend/src/game/Settlement.ts
+     ├─ Main payment calculation orchestrator
+     ├─ Handles all modes
+     └─ Returns detailed breakdown
+
+  2. backend/src/game/PaymentCalculator.ts
+     ├─ Discard win calculator
+     ├─ Self-draw win calculator
+     └─ Pao calculator (if implemented)
+
+  3. backend/src/game/PaymentModes.ts
+     ├─ Mode enums
+     ├─ Mode interfaces
+     └─ Mode constants
+
+  4. backend/src/config/PaymentConfig.ts
+     ├─ Configuration interface
+     ├─ Default values
+     └─ Config validator
+
+TEST FILES (4 files):
+  5. backend/tests/payment/Settlement.test.ts (10 tests)
+  6. backend/tests/payment/DiscardWin.test.ts (15-20 tests)
+  7. backend/tests/payment/SelfDrawWin.test.ts (10-15 tests)
+  8. backend/tests/payment/PaoLiability.test.ts (10-15 tests)
+
+TOTAL: ~60 unit test cases
+
+
+⚙️ CONFIGURATION STRUCTURE (Extensible)
+──────────────────────────────────────────────────────────────────────────────
+
+Configurable Parameters:
+
+  Base Rates:
+    • nonDealerBaseRate: 1 point per fan
+    • dealerBaseRate: 1 point per fan (before multiplier)
+
+  Multipliers:
+    • dealerWinsMultiplier: 2x (dealer receives)
+    • dealerLosesMultiplier: 2x (dealer pays)
+
+  Payment Mode Settings:
+    • discard.allLosersContribute: true/false ← ❓ FLAGGED
+    • selfDraw.reducedPayment: true/false ← ❓ FLAGGED
+    • pao.enabled: true/false ← ❓ FLAGGED
+
+  Payment Limits:
+    • maxFanForCalculation: 0 (0 = no limit)
+    • maxPaymentPerLoser: 0 (0 = no limit)
+
+
+📊 EXAMPLE CALCULATIONS
+──────────────────────────────────────────────────────────────────────────────
+
+SCENARIO 1: Non-dealer wins by discard (2 fan, current assumption)
+
+  Winners: Player A (South, non-dealer)
+  Loser Discard: Player B (East, dealer)
+  Other Players: Player C (West, non-dealer), Player D (North, non-dealer)
+
+  ASSUMPTION: All 3 losers pay equally
+    From B (dealer): 1 × 2 fan = 2 points
+    From C (regular): 1 × 2 fan = 2 points
+    From D (regular): 1 × 2 fan = 2 points
+    ────────────────────────────────
+    Total to A: 6 points
+
+  ALTERNATIVE: Only discarder pays
+    From B (dealer): 3 × 2 fan = 6 points
+    From C, D: 0
+    ────────────────────────────────
+    Total to A: 6 points (same result but different payers)
+
+
+SCENARIO 2: Dealer wins by self-draw (3 fan)
+
+  Winner: Player A (East, dealer)
+  Other Players: B, C, D (all non-dealers)
+
+  CALCULATION:
+    From B: 2 × 3 fan = 6 points (dealer multiplier)
+    From C: 2 × 3 fan = 6 points (dealer multiplier)
+    From D: 2 × 3 fan = 6 points (dealer multiplier)
+    ────────────────────────────────
+    Total to A: 18 points
+
+
+SCENARIO 3: Dealer loses to non-dealer (2 fan)
+
+  Winner: Player A (South, non-dealer)
+  Dealer: Player B (East)
+  Other Players: C, D (non-dealers)
+
+  CALCULATION (per spec):
+    From B (dealer): 2 × 2 fan = 4 points (dealer pays double)
+    From C: 1 × 2 fan = 2 points (regular rate)
+    From D: 1 × 2 fan = 2 points (regular rate)
+    ────────────────────────────────
+    Total to A: 8 points
+
+
+✅ CONFIRMED ASSUMPTIONS
+──────────────────────────────────────────────────────────────────────────────
+
+These are clear from the specification:
+
+  ✓ Winning hand: 4 melds + 1 pair
+  ✓ Minimum fan: 1 fan to win
+  ✓ Base payment: Loser pays fan count in points
+  ✓ Dealer multiplier: 2x for wins and losses
+  ✓ Fan values: Pong(1), Kong concealed(2), Kong exposed(1), Flowers/Seasons(1 each)
+  ✓ Draw game: No payments
+
+
+⚠️ PROVISIONAL ASSUMPTIONS (Pending Clarification)
+──────────────────────────────────────────────────────────────────────────────
+
+These will be implemented but marked as "assumed" pending confirmation:
+
+  ⚠ MVP ASSUMPTION #1: All 3 losers contribute equally in discard win
+     Status: Will implement this way, but can change if confirmed otherwise
+  
+  ⚠ MVP ASSUMPTION #2: Self-draw and discard wins have same payment
+     Status: Will implement equal payment, modify if bonus/penalty needed
+  
+  ⚠ MVP ASSUMPTION #3: Kong does not create liability (Pao)
+     Status: Deferred to Phase 4, can be added/integrated later
+  
+  ⚠ MVP ASSUMPTION #4: No payment cap
+     Status: Payments scale with fan count, cap can be added later
+
+
+🔧 IMPLEMENTATION STRATEGY (4 Phases)
+──────────────────────────────────────────────────────────────────────────────
+
+PHASE 1: Base Settlement (No Ambiguity)
+  Timeline: 1-2 hours
+  Deliverable: Core Settlement.ts with basic calculations
+  Tests: 10 unit tests
+  
+PHASE 2: Mode-Specific Logic (With Assumptions)
+  Timeline: 2-3 hours
+  Deliverable: PaymentCalculator.ts + all 3 modes
+  Tests: 40-50 unit tests
+  
+PHASE 3: Validation & Configuration
+  Timeline: 1-2 hours
+  Deliverable: PaymentConfig.ts + error handling
+  Tests: Integration tests
+  
+PHASE 4: Pao Mode (Optional, After Confirmation)
+  Timeline: 1-2 hours
+  Deliverable: Kong liability implementation
+  Tests: 15+ unit tests
+
+
+📋 CHECKLIST: What You Need to Confirm
+──────────────────────────────────────────────────────────────────────────────
+
+Before I start implementation, please clarify:
+
+  [ ] QUESTION 1: Discard Payment
+      "When a player wins on another's discard, should..."
+      (a) All 3 losers pay equally?
+      (b) Only the discarder pay (3x amount)?
+      → Answer: _____
+
+  [ ] QUESTION 2: Self-Draw vs. Discard
+      "Should self-draw win payment be..."
+      (a) Same as discard win (no difference)?
+      (b) Reduced (e.g., half payment)?
+      (c) Different formula altogether?
+      → Answer: _____
+
+  [ ] QUESTION 3: Kong Liability (Pao)
+      "When a Kong is declared, should..."
+      (a) Not create any special payment liability?
+      (b) Kong declarant pay double for winning?
+      (c) Kong declarant pay all other players' contributions?
+      → Answer: _____
+
+  [ ] QUESTION 4: Payment Cap
+      "Should there be a maximum payment limit?"
+      (a) No cap (scale indefinitely with fan)?
+      (b) Cap at configuration maximum fan?
+      (c) Cap at player's current score?
+      → Answer: _____
+
+  [ ] QUESTION 5: Dealer Direction
+      "Is this interpretation correct?"
+          Dealer wins by 2 fan → each loser pays 2×2=4 points
+          Dealer loses by 2 fan → dealer pays 2×2=4, others pay 2 each
+      (a) Yes, this is correct
+      (b) No, please explain: _____
+
+
+🚀 READY TO PROCEED?
+──────────────────────────────────────────────────────────────────────────────
+
+OPTION A: Proceed with MVP Assumptions
+  → I implement with provisional assumptions marked as such
+  → Tests will pass with current assumptions
+  → Easy to modify once clarifications arrive
+  → Takes 4-6 hours for complete implementation
+  
+OPTION B: Wait for Clarification
+  → Get answers to the 5 questions above
+  → Implement with confirmed rules
+  → No rework needed later
+  → Takes same time but more accuracy guaranteed
+
+OPTION C: Hybrid Approach (Recommended)
+  → I implement Phase 1 & 2 (base + modes) with assumptions
+  → You review and provide clarifications
+  → I implement Phase 3 & 4 with confirmed rules
+  → Faster feedback loop
+
+
+📚 DOCUMENTS CREATED FOR YOUR REVIEW
+──────────────────────────────────────────────────────────────────────────────
+
+1. PAYMENT_RULES_ANALYSIS.md (detailed)
+   └─ 8-section breakdown of rules and architecture
+   └─ Read this for complete understanding
+
+2. IMPLEMENTATION_SUMMARY.md (summary)
+   └─ Quick reference for key decisions
+   └─ Read this for high-level overview
+
+3. READY_FOR_IMPLEMENTATION.txt (this file)
+   └─ Visual summary and checklist
+   └─ Read this for quick status
+
+
+═══════════════════════════════════════════════════════════════════════════════
+
+NEXT STEP: Provide answers to the 5 clarification questions above.
+
+Once answered, I will:
+  1. Initialize TypeScript backend project
+  2. Create all 8 files with complete implementation
+  3. Write 60 comprehensive unit tests
+  4. Validate all three payment modes
+  5. Provide summary of changes and test results
+
+═══════════════════════════════════════════════════════════════════════════════
