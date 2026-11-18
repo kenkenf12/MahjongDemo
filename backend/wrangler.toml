@@ -1,0 +1,42 @@
+name = "mahjong-game"
+main = "dist/cf-worker.js"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[env.production]
+name = "mahjong-game-prod"
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+name = "mahjong-game-staging"
+vars = { ENVIRONMENT = "staging" }
+
+# WebSocket support via Durable Objects
+[[durable_objects.bindings]]
+name = "GAME_ROOM"
+class_name = "GameRoom"
+
+# KV namespace for game state persistence (optional)
+[[kv_namespaces]]
+binding = "GAME_KV"
+id = "your-kv-namespace-id"
+preview_id = "your-kv-preview-id"
+
+# Build configuration
+[build]
+command = "npm run build"
+cwd = "."
+watch_paths = ["src/**/*.ts"]
+
+# Routes (optional - for custom routing)
+[[routes]]
+pattern = "api/games/*"
+zone_name = "yourdomain.com"
+
+# Limits
+[limits]
+cpu_ms = 50000
+
+# Observability
+[observability]
+enabled = true
