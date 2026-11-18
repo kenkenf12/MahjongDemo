@@ -21,7 +21,7 @@ class MahjongClient {
             if (!host) {
                 if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
                     // Local development
-                    host = 'https://mahjongdemo.kenkenf12.workers.dev';
+                    host = 'mahjongdemo.kenkenf12.workers.dev';
                 } else {
                     // Production - show prompt for backend URL
                     const savedHost = localStorage.getItem('backendHost');
