@@ -15,10 +15,32 @@ class MahjongClient {
     /**
      * Connect to the WebSocket server
      */
-    connect(host = 'localhost:3000') {
+    connect(host = null) {
         try {
+            // Auto-detect host if not provided
+            if (!host) {
+                if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                    // Local development
+                    host = 'localhost:3000';
+                } else {
+                    // Production - show prompt for backend URL
+                    const savedHost = localStorage.getItem('backendHost');
+                    if (savedHost) {
+                        host = savedHost;
+                    } else {
+                        this.log('⚠️ Backend URL not configured. Using demo mode (no connection).', 'warning');
+                        this.log('To connect to a backend, set the server URL in settings.', 'info');
+                        this.updateStatus('Demo Mode (No Backend)', false);
+                        return;
+                    }
+                }
+            }
+
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            this.socket = new WebSocket(`${protocol}//${host}`);
+            const url = `${protocol}//${host}`;
+            
+            console.log('Connecting to:', url);
+            this.socket = new WebSocket(url);
 
             this.socket.onopen = () => {
                 this.onConnected();
@@ -37,8 +59,20 @@ class MahjongClient {
             };
         } catch (error) {
             console.error('Connection error:', error);
-            this.updateStatus('Failed to connect', false);
+            this.log('❌ Failed to connect: ' + error.message, 'error');
+            this.updateStatus('Connection Failed', false);
         }
+    }
+
+    /**
+     * Reconnect to server with a new host
+     */
+    reconnectWithHost(host) {
+        if (this.socket) {
+            this.socket.close();
+        }
+        localStorage.setItem('backendHost', host);
+        this.connect(host);
     }
 
     /**
@@ -359,6 +393,40 @@ function discardTile() {
 function declareWin() {
     client.declareWin();
 }
+
+// Settings Functions
+function updateBackendUrl() {
+    const url = document.getElementById('backendUrl').value.trim();
+    if (!url) {
+        alert('Please enter a backend URL');
+        return;
+    }
+    client.log('Reconnecting to: ' + url, 'info');
+    client.reconnectWithHost(url);
+}
+
+function testConnection() {
+    const savedHost = localStorage.getItem('backendHost');
+    if (savedHost) {
+        client.log('Testing connection to: ' + savedHost, 'info');
+        // Attempt reconnect
+        if (client.socket && client.socket.readyState === WebSocket.OPEN) {
+            client.log('✅ Connected successfully!', 'success');
+        } else {
+            client.log('❌ Not currently connected', 'error');
+        }
+    } else {
+        client.log('No backend URL configured. Set one in Settings.', 'warning');
+    }
+}
+
+// Load saved backend URL on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedHost = localStorage.getItem('backendHost');
+    if (savedHost && document.getElementById('backendUrl')) {
+        document.getElementById('backendUrl').value = savedHost;
+    }
+});
 
 /**
  * Map tile data to image filename
